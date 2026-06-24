@@ -1,0 +1,33 @@
+services:
+  - type: web
+    name: banda-api
+    runtime: python
+    buildCommand: cd backend && pip install -r requirements.txt
+    startCommand: cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: DATABASE_URL
+        sync: false  # Vient du secret GitHub NEON_DATABASE_URL ou SUPABASE
+      - key: BANDA_SECURITY_SALT
+        sync: false
+      - key: CINETPAY_API_KEY
+        sync: false
+      - key: CINETPAY_SITE_ID
+        sync: false
+      - key: CINETPAY_WEBHOOK_SECRET
+        sync: false
+      - key: R2_ACCESS_KEY
+        sync: false
+      - key: R2_SECRET_KEY
+        sync: false
+      - key: R2_BUCKET_NAME
+        value: banda-models
+      - key: R2_PUBLIC_URL
+        sync: false
+      - key: SECRET_KEY
+        generateValue: true  # Généré automatiquement par Render
+      - key: APP_ENV
+        value: production
+      - key: LOG_LEVEL
+        value: INFO
+    plan: free
+    region: frankfurt  # Proche Afrique de l'Ouest
